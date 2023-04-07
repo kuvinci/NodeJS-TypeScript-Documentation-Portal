@@ -1,0 +1,29 @@
+<div class='account'>
+    <h1>{{title}}</h1>
+
+    <form action="/account/edit" method="POST">
+        <div class="input-field">
+            <input placeholder="John Doe" name="name" id="name" type="text" class="validate" value="{{{user.name}}}">
+            <label for="title">Name</label>
+        </div>
+
+        <div class="input-field">
+            <input placeholder="example@gmail.com" name="email" id="email" type="text" class="validate" value="{{{user.email}}}" required>
+            <label for="title">Email</label>
+        </div>
+
+        <div class="input-field">
+            <input placeholder="username" name="username" id="username" type="text" class="validate" value="{{{user.username}}}" required>
+            <label for="title">Username (Nickname)</label>
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{csrf}}">
+
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+            Save
+        </button>
+    </form>
+    
+    <h3>Your activities:</h3>
+    {{>bestPracticesCards}}
+</div>

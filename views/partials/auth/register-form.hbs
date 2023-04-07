@@ -1,0 +1,37 @@
+<h1>Register</h1>
+<form action="/auth/register" method="POST">
+    <div class="input-field">
+        <input id="register_email" name="email" type="text" class="validate" required>
+        <label for="register_email">Email</label>
+    </div>
+
+    <div class="input-field">
+        <input id="register_username" name="username" type="text" class="validate" required>
+        <label for="register_username">Username</label>
+    </div>
+
+    <div class="input-field">
+        <input id="register_name" name="name" type="text" class="validate">
+        <label for="register_name">Name</label>
+    </div>
+
+    <div class="input-field">
+        <input id="register_password" name="password" type="password" class="validate" required>
+        <label for="register_password">Password</label>
+    </div>
+
+    <div class="input-field">
+        <input id="confirm_password" name="confirm_password" type="password" class="validate" required>
+        <label for="confirm_password">Confirm password</label>
+    </div>
+
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+
+    {{#if registerError}}
+        <p class="alert">{{registerError}}</p>
+    {{/if}}
+
+    <button class="btn waves-effect waves-light" type="submit" name="action">
+        Submit
+    </button>
+</form>

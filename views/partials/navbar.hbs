@@ -1,0 +1,63 @@
+<nav>
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo">Doccumentation</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                {{#if isHome}}
+                    <li class="active"><a href="/">Home</a></li>
+                {{else}}
+                    <li><a href="/">Home</a></li>
+                {{/if}}
+
+                {{#if isBestPractices}}
+                    <li class="active"><a href="/best_practices">Best Practices (BP)</a></li>
+                {{else}}
+                    <li><a href="/best_practices">Best Practices (BP)</a></li>
+                {{/if}}
+
+                {{#if isAuth}}
+                    {{#if isBP}}
+                        <li class="active"><a href="/add">Add BP</a></li>
+                    {{else}}
+                        <li><a href="/add">Add BP</a></li>
+                    {{/if}}
+                        <li>
+                            <a class="dropdown-trigger" href="#!" data-target="account">
+                                <i class="fa-solid fa-user"></i>
+                            </a>
+
+                            <ul id="account" class="dropdown-content">
+                                {{#if isAccount}}
+                                    <li class="active"><a href="/account">Account</a></li>
+                                {{else}}
+                                    <li><a href="/account">Account</a></li>
+                                {{/if}}
+                                <li>
+                                    <a href="/auth/logout">
+                                        Logout
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                {{else}}
+                    {{#if isLogin}}
+                        <li class="active">
+                            <a href="/auth/login">
+                                Login
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                            </a>
+                        </li>
+                    {{else}}
+                        <li>
+                            <a href="/auth/login">
+                                Login
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                            </a>
+                        </li>
+                    {{/if}}
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,104 @@
+.nav-wrapper {
+    li {
+        position: relative;
+        i {
+            font-size: 1rem;
+            height: auto;
+            line-height: initial;
+        }
+    }
+    .dropdown-content {
+        top: 100% !important;
+        a {
+            display: flex;
+            align-items: center;
+            i {
+                margin-left: 5px;
+            }
+        }
+    }
+}
+
+.tox-promotion {
+    display: none !important;
+}
+.tox-statusbar__branding {
+    display: none !important;
+}
+
+.card-content {
+    &__type {
+        display: inline-block;
+        padding: 2px 6px;
+        margin: 4px;
+        text-align: center;
+        font-size: 1rem;
+        line-height: 22px;
+        color: #fff;
+        background-color: green;
+        border-radius: 13px;
+        box-sizing: border-box;
+    }
+    &__types {
+        &--dashboard {
+            background-color: #1d2327;
+        }
+        &--wordpress {
+            background-color: #1f6f93;
+        }
+        &--php {
+            background-color: #4b568b;
+        }
+        &--css {
+            background-color: #c76494;
+        }
+    }
+}
+
+.best-practice {
+    ul {
+        li {
+            margin-bottom: 15px;
+        }
+    }
+}
+
+a.card-action {
+    display: flex;
+    align-items: center;
+    color: #1a1a1a;
+    transition: 0.2s;
+    &:hover {
+        color: green;
+    }
+    i {
+        font-size: 15px;
+        margin-right: 5px;
+    }
+}
+
+#delete_bestPractice {
+    margin-top: 1rem;
+}
+
+.auth {
+    padding-top: 3rem;
+}
+
+code {
+    font-family: Consolas, 'courier new';
+    color: crimson;
+    background-color: #f1f1f1;
+    padding: 2px;
+    font-size: 105%;
+}
+
+.alert {
+    color: red;
+    font-size: 14px;
+    margin: 5px 0 30px;
+    padding: 5px;
+    border: 1px solid red;
+    background-color: #ffe6e6;
+    border-radius: 5px;
+}

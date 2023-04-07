@@ -1,0 +1,38 @@
+{{#if bestPractices.length}}
+    <div class='row'>
+        {{#each bestPractices}}
+            <div class='col s6 m4'>
+                <div class='card horizontal'>
+                    <div class='card-stacked'>
+                        <div class='card-content'>
+                            <h6>{{{title}}}</h6>
+                            <div class="card-content__types">
+                                {{#if type_dahboard}}
+                                    <a href="/best_practices?type=dashboard" class="card-content__type card-content__types--dashboard">Dashboard</a>
+                                {{/if}}
+                                {{#if type_wp}}
+                                    <a href="/best_practices?type=wordpress" class="card-content__type card-content__types--wordpress">Wordpress</a>
+                                {{/if}}
+                                {{#if type_php}}
+                                    <a href="/best_practices?type=php" class="card-content__type card-content__types--php">PHP</a>
+                                {{/if}}
+                                {{#if type_css}}
+                                    <a href="/best_practices?type=css" class="card-content__type card-content__types--css">SCSS/CSS</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <a href='/best_practices/{{_id}}' class='card-action'>
+                            Read more
+                        </a>
+                        {{#if @root.isAuth}}
+                            <a href='/best_practices/{{_id}}/edit?allow=true' class='card-action'>
+                                <i class="large material-icons">create</i>
+                                Edit
+                            </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{/if}}

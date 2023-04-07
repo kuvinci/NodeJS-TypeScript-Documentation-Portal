@@ -1,0 +1,50 @@
+<h1>Add Best Practice (BP)</h1>
+
+{{#if error}}
+  <p class="alert">{{error}}</p>
+{{/if}}
+
+<form action="/add" method="POST">
+    <div class="input-field">
+        <input placeholder="Title" name="title" value="{{data.title}}" id="title" type="text" class="validate" required>
+        <label for="title">BP Title</label>
+    </div>
+
+    <p>
+        <label>
+            <input type="checkbox" name="type_dahboard" {{#if data.type_dahboard}}checked{{/if}} class="filled-in" />
+            <span>Dashboard BP</span>
+        </label>
+    </p>
+    
+    <p>
+        <label>
+            <input type="checkbox" name="type_wp" {{#if data.type_wp}}checked{{/if}} class="filled-in" />
+            <span>Wordpress code BP</span>
+        </label>
+    </p>
+    
+    <p>
+        <label>
+            <input type="checkbox" name="type_php" {{#if data.type_php}}checked{{/if}} class="filled-in" />
+            <span>PHP BP</span>
+        </label>
+    </p>
+    
+    <p>
+        <label>
+            <input type="checkbox" name="type_css" {{#if data.type_css}}checked{{/if}} class="filled-in" />
+            <span>SCSS/CSS BP</span>
+        </label>
+    </p>
+
+    <div class="input-field">
+        <textarea placeholder="Content" name="content" value="{{data.content}}" id="content" class="validate"></textarea>
+    </div>
+
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+
+    <button class="btn waves-effect waves-light" type="submit" name="action">
+        Submit
+    </button>
+</form>
