@@ -30,10 +30,16 @@ router.get('/:id/edit', auth, async (req: Request, res: Response) => {
 
     const bestPractice = await BestPractices.findById(req.params.id);
 
-    res.render('bestPractice-edit', {
-        title: bestPractice.title,
-        bestPractice,
-    });
+    if (bestPractice) {
+        res.render('bestPractice-edit', {
+            title: bestPractice.title,
+            bestPractice,
+        });
+    } else {
+        res.status(404).render('404', {
+            title: `Best Practice with id - ${req.params.id} not found`,
+        });
+    }
 });
 
 router.post('/edit', auth, bestPracticeValidators, async (req: Request, res: Response) => {
@@ -47,12 +53,18 @@ router.post('/edit', auth, bestPracticeValidators, async (req: Request, res: Res
     try {
         delete req.body.id;
         const bestPractice = await BestPractices.findById(id);
-        if (!isOwner(bestPractice, req)) {
-            return res.redirect('/best_practices');
+        if (bestPractice) {
+            if (!isOwner(bestPractice, req)) {
+                return res.redirect('/best_practices');
+            }
+            Object.assign(bestPractice, req.body);
+            await bestPractice.save();
+            res.redirect('/best_practices');
+        } else {
+            res.status(404).render('404', {
+                title: `Best Practice with id - ${id} not found`,
+            });
         }
-        Object.assign(bestPractice, req.body);
-        await bestPractice.save();
-        res.redirect('/best_practices');
     } catch (e) {
         console.log(e);
     }
@@ -69,10 +81,16 @@ router.post('/delete', auth, async (req: Request, res: Response) => {
 
 router.get('/:id', async (req: Request, res: Response) => {
     const bestPractice = await BestPractices.findById(req.params.id);
-    res.render('bestPractice', {
-        title: bestPractice.title,
-        bestPractice: bestPractice,
-    });
+    if (bestPractice) {
+        res.render('bestPractice', {
+            title: bestPractice.title,
+            bestPractice,
+        });
+    } else {
+        res.status(404).render('404', {
+            title: `Best Practice with id - ${req.params.id} not found`,
+        });
+    }
 });
 
 export default router;

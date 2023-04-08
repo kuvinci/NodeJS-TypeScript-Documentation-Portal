@@ -1,23 +1,24 @@
-const { Router } = require('express');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
-const { validationResult } = require('express-validator');
-const nodemailer = require('nodemailer');
-const sendgrid = require('nodemailer-sendgrid-transport');
-const User = require('../models/User');
-const keys = require('../keys');
-const regEmail = require('../emails/registration');
-const resetEmail = require('../emails/reset');
-const { registerValidators } = require('../utils/validators');
+import { Router, Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+import { validationResult } from 'express-validator';
+import nodemailer from 'nodemailer';
+// import sendgrid from 'nodemailer-sendgrid-transport';
+import User from '../models/User';
+// import keys from '../keys';
+// import regEmail from '../emails/registration';
+// import resetEmail from '../emails/reset';
+import { registerValidators } from '../utils/validators';
+
 const router = Router();
 
-const transporter = nodemailer.createTransport(
-    sendgrid({
-        auth: { api_key: keys.SENDGRID_API },
-    })
-);
+// const transporter = nodemailer.createTransport(
+//     sendgrid({
+//         auth: { api_key: keys.SENDGRID_API },
+//     })
+// );
 
-router.get('/login', async (req, res) => {
+router.get('/login', async (req: Request, res: Response) => {
     res.render('auth/login', {
         title: 'Login/Register',
         isLogin: true,
@@ -26,13 +27,13 @@ router.get('/login', async (req, res) => {
     });
 });
 
-router.get('/logout', async (req, res) => {
+router.get('/logout', async (req: Request, res: Response) => {
     req.session.destroy(() => {
         res.redirect('/auth/login');
     });
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
 
@@ -42,10 +43,12 @@ router.post('/login', async (req, res) => {
             res.redirect('/auth/login');
         }
 
-        const isSame = await bcrypt.compare(password, candidate.password);
-        if (!isSame) {
-            req.flash('loginError', 'Wrong password');
-            res.redirect('/auth/login');
+        if (candidate) {
+            const isSame = await bcrypt.compare(password, candidate.password);
+            if (!isSame) {
+                req.flash('loginError', 'Wrong password');
+                res.redirect('/auth/login');
+            }
         }
 
         req.session.user = candidate;
@@ -62,7 +65,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/register', registerValidators, async (req, res) => {
+router.post('/register', registerValidators, async (req: Request, res: Response) => {
     try {
         const { email, username, name, password, confirm_password } = req.body;
 
@@ -80,21 +83,21 @@ router.post('/register', registerValidators, async (req, res) => {
             bestPractices: { IDs: [] },
         });
         await user.save();
-        await transporter.sendMail(regEmail(email));
+        // await transporter.sendMail(regEmail(email));
         res.redirect('/auth/login');
     } catch (error) {
         console.log(error);
     }
 });
 
-router.get('/reset', (req, res) => {
+router.get('/reset', (req: Request, res: Response) => {
     res.render('auth/reset', {
         title: 'Forgot password?',
         error: req.flash('error'),
     });
 });
 
-router.get('/password/:token', async (req, res) => {
+router.get('/password/:token', async (req: Request, res: Response) => {
     if (!req.params.token) {
         return res.redirect('/auth/login');
     }
@@ -120,37 +123,37 @@ router.get('/password/:token', async (req, res) => {
     }
 });
 
-router.post('/reset', (req, res) => {
-    try {
-        crypto.randomBytes(32, async (err, buffer) => {
-            if (err) {
-                req.flash(
-                    'error',
-                    'Something went wrong, please try again a bit later'
-                );
-                return res.redirect('/auth/reset');
-            }
+// router.post('/reset', (req: Request, res: Response) => {
+//     try {
+//         crypto.randomBytes(32, async (err, buffer) => {
+//             if (err) {
+//                 req.flash(
+//                     'error',
+//                     'Something went wrong, please try again a bit later'
+//                 );
+//                 return res.redirect('/auth/reset');
+//             }
 
-            const token = buffer.toString('hex');
-            const candidate = await User.findOne({ email: req.body.email });
+//             const token = buffer.toString('hex');
+//             const candidate = await User.findOne({ email: req.body.email });
 
-            if (candidate) {
-                candidate.resetToken = token;
-                candidate.resetTokenExp = Date.now() + 60 * 60 * 1000;
-                await candidate.save();
-                await transporter.sendMail(resetEmail(candidate.email, token));
-                res.redirect('/auth/login');
-            } else {
-                req.flash('error', "Email doesn't exist");
-                res.redirect('/auth/reset');
-            }
-        });
-    } catch (e) {
-        console.log(e);
-    }
-});
+//             if (candidate) {
+//                 candidate.resetToken = token;
+//                 candidate.resetTokenExp = Date.now() + 60 * 60 * 1000;
+//                 await candidate.save();
+//                 await transporter.sendMail(resetEmail(candidate.email, token));
+//                 res.redirect('/auth/login');
+//             } else {
+//                 req.flash('error', "Email doesn't exist");
+//                 res.redirect('/auth/reset');
+//             }
+//         });
+//     } catch (e) {
+//         console.log(e);
+//     }
+// });
 
-router.post('/password', async (req, res) => {
+router.post('/password', async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({
             _id: req.body.userId,

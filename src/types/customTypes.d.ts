@@ -6,3 +6,10 @@ declare module 'express-serve-static-core' {
     user?: User;
   }
 }
+
+declare module 'express-session' {
+  interface SessionData {
+    isAuthenticated: boolean;
+    user: IUser;
+  }
+}
