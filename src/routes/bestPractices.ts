@@ -1,11 +1,16 @@
-const { Router } = require('express');
-const { validationResult } = require('express-validator');
-const BestPractices = require('../models/BestPractices');
-const auth = require('../middleware/auth');
-const { bestPracticeValidators } = require('../utils/validators');
+import { Router, Request, Response } from 'express';
+import { validationResult } from 'express-validator';
+import BestPractices from '../models/BestPractices';
+import auth from '../middleware/auth';
+import { bestPracticeValidators } from '../utils/validators';
+
 const router = Router();
 
-router.get('/', async (req, res) => {
+function isOwner(bestPractice: any, req: Request): boolean {
+    return bestPractice.userID.toString() === req.user._id.toString();
+}
+
+router.get('/', async (req: Request, res: Response) => {
     const bestPractices = await BestPractices.find().populate(
         'userID',
         'email username name'
@@ -18,9 +23,9 @@ router.get('/', async (req, res) => {
     });
 });
 
-router.get('/:id/edit', auth, async (req, res) => {
+router.get('/:id/edit', auth, async (req: Request, res: Response) => {
     if (!req.query.allow) {
-        return redirect('/');
+        return res.redirect('/');
     }
 
     const bestPractice = await BestPractices.findById(req.params.id);
@@ -31,7 +36,7 @@ router.get('/:id/edit', auth, async (req, res) => {
     });
 });
 
-router.post('/edit', auth, bestPracticeValidators, async (req, res) => {
+router.post('/edit', auth, bestPracticeValidators, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     const { id } = req.body;
 
@@ -53,7 +58,7 @@ router.post('/edit', auth, bestPracticeValidators, async (req, res) => {
     }
 });
 
-router.post('/delete', auth, async (req, res) => {
+router.post('/delete', auth, async (req: Request, res: Response) => {
     try {
         await BestPractices.deleteOne({ _id: req.body.id });
     } catch (error) {
@@ -62,7 +67,7 @@ router.post('/delete', auth, async (req, res) => {
     res.redirect('/best_practices');
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req: Request, res: Response) => {
     const bestPractice = await BestPractices.findById(req.params.id);
     res.render('bestPractice', {
         title: bestPractice.title,
@@ -70,4 +75,4 @@ router.get('/:id', async (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;
