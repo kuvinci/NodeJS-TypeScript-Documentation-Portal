@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "node dist/index.js",
     "build": "tsc",
     "dev": "nodemon --exec ts-node --files src/index.ts",
-    "serve": "node dist/index.js",
     "watch": "node-sass -w src/public/scss/index.scss src/public/css/index.css --output-style compressed",
     "build:materialize": "node-sass src/public/scss/materialize.scss src/public/css/materialize.css --output-style compressed"
   },
