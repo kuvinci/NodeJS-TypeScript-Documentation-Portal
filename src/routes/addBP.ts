@@ -1,18 +1,19 @@
-const { Router } = require('express');
-const { validationResult } = require('express-validator');
-const BestPractices = require('../models/BestPractices');
-const auth = require('../middleware/auth');
-const { bestPracticeValidators } = require('../utils/validators');
+import { Router, Request, Response } from 'express';
+import { validationResult } from 'express-validator';
+import BestPractices from '../models/BestPractices';
+import auth from '../middleware/auth';
+import { bestPracticeValidators } from '../utils/validators';
+
 const router = Router();
 
-router.get('/', auth, (req, res) => {
+router.get('/', auth, (req: Request, res: Response) => {
     res.render('addBP', {
         title: 'Add Best Practice',
         isBP: true,
     });
 });
 
-router.post('/', auth, bestPracticeValidators, async (req, res) => {
+router.post('/', auth, bestPracticeValidators, async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -51,4 +52,4 @@ router.post('/', auth, bestPracticeValidators, async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

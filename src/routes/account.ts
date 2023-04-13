@@ -1,10 +1,11 @@
-const { Router } = require('express');
-const BestPractices = require('../models/BestPractices');
-const User = require('../models/User');
-const auth = require('../middleware/auth');
+import { Router, Request, Response } from 'express';
+import BestPractices from '../models/BestPractices';
+import User from '../models/User';
+import auth from '../middleware/auth';
+
 const router = Router();
 
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async (req: Request, res: Response) => {
     const bestPractices = await BestPractices.find()
     .populate('userID', 'email username name');
 
@@ -20,7 +21,7 @@ router.get('/', auth, async (req, res) => {
     });
 });
 
-router.post('/edit', auth, async (req, res) => {
+router.post('/edit', auth, async (req: Request, res: Response) => {
     try {
         const id = req.user._id;
         const user = {
@@ -35,4 +36,4 @@ router.post('/edit', auth, async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

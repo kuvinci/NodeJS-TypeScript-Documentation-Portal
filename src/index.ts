@@ -11,12 +11,12 @@ import Handlebars from 'handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 import homeRoutes from './routes/home';
 import BPRoutes from './routes/bestPractices';
-// import addBP from './routes/addBP';
-// import account from './routes/account';
+import addBP from './routes/addBP';
+import account from './routes/account';
 import auth from './routes/auth';
-// import varMiddleware from './middleware/variables';
+import varMiddleware from './middleware/variables';
 import userMiddleware from './middleware/user';
-// import errorHandler from './middleware/error';
+import errorHandler from './middleware/error';
 import keys from './keys';
 
 const app = express();
@@ -47,11 +47,11 @@ app.use(
         store,
     })
 );
-// app.use(csrf());
+app.use(csrf());
 app.use(flash());
 app.use(helmet());
 app.use(compression());
-// app.use(varMiddleware);
+app.use(varMiddleware);
 app.use(userMiddleware);
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader(
@@ -63,11 +63,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/', homeRoutes);
 app.use('/best_practices', BPRoutes);
-// app.use('/add', addBP);
-// app.use('/account', account);
+app.use('/add', addBP);
+app.use('/account', account);
 app.use('/auth', auth);
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
