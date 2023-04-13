@@ -10,7 +10,7 @@ router.get('/', auth, async (req: Request, res: Response) => {
     .populate('userID', 'email username name');
 
     res.render('account', {
-        title: 'Profile page',
+        title: 'Profile page TEST',
         isAccount: true,
         bestPractices: bestPractices,
         user: {

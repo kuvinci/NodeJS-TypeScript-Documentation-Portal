@@ -21,7 +21,7 @@ router.get('/', auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, 
     const bestPractices = yield BestPractices_1.default.find()
         .populate('userID', 'email username name');
     res.render('account', {
-        title: 'Profile page',
+        title: 'Profile page TEST',
         isAccount: true,
         bestPractices: bestPractices,
         user: {
