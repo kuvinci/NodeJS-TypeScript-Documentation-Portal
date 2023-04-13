@@ -1,6 +1,6 @@
 import { Schema, model, Document, ObjectId } from 'mongoose';
 
-interface BestPractice extends Document {
+interface IBestPractice extends Document {
     title: string;
     type_dahboard?: string;
     type_wp?: string;
@@ -10,7 +10,7 @@ interface BestPractice extends Document {
     userID: ObjectId;
 }
 
-const bestPracticeSchema = new Schema<BestPractice>({
+const bestPracticeSchema = new Schema<IBestPractice>({
     title: {
         type: String,
         required: true
@@ -37,4 +37,4 @@ const bestPracticeSchema = new Schema<BestPractice>({
     }
 });
 
-export default model<BestPractice>('Best Practice', bestPracticeSchema);
+export default model<IBestPractice>('Best Practice', bestPracticeSchema);
