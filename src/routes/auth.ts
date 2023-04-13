@@ -9,6 +9,7 @@ import User from '../models/User';
 // import regEmail from '../emails/registration';
 // import resetEmail from '../emails/reset';
 import { registerValidators } from '../utils/validators';
+import { log } from 'console';
 
 const router = Router();
 
